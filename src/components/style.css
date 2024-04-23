@@ -1,0 +1,12 @@
+.block-input{
+    background-color: #282C34;
+    color: white;
+    border: solid;
+    border-color: white;
+}
+
+.block-input:focus{
+    outline: none !important;
+    border: solid;
+    border-color: white;
+}
