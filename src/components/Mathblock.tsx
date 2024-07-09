@@ -2,13 +2,7 @@ import { MathJax } from "better-react-mathjax";
 import Draggable from "react-draggable";
 import { useState } from "react";
 import "./style.css"
-
-export interface MathBlockInterface {
-  id: string;
-  equation: string;
-  x: number;
-  y: number;
-}
+import { MathBlockInterface } from "../global/mathBlockInterface";
 
 export const Mathblock: React.FC<MathBlockInterface> = (
   props: MathBlockInterface
