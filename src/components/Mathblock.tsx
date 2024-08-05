@@ -1,6 +1,6 @@
 import { MathJax } from "better-react-mathjax";
 import Draggable from "react-draggable";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./style.css"
 import { MathBlockInterface } from "../global/mathBlockInterface";
 import { Store } from "../global/localstoragefile";
@@ -8,9 +8,16 @@ import { Store } from "../global/localstoragefile";
 export const Mathblock: React.FC<MathBlockInterface> = (
   props: MathBlockInterface
 ) => {
+  
   const [equation, setEquation] = useState(props.equation);
   const [blockwidth, setBlockwidth] = useState(200);
-  const [editmode, setEditmode] = useState(true)
+  const [editmode, setEditmode] = useState(() => {
+    if(Store.getItem(props.id)){
+      return false
+    }else{
+      return true
+    }
+  })
   const blId = "block-container-" + props.id
 
   function inputHandler(e: React.ChangeEvent<HTMLTextAreaElement>) {
@@ -52,13 +59,18 @@ export const Mathblock: React.FC<MathBlockInterface> = (
     Store.removeItem(props.id)    
   }
 
-  
+  useEffect(() => {
+    const block = document.getElementById(blId)
+    block!.style.left = props.x + "px"
+    block!.style.top = props.y + "px"
+  },[])
+
+
 
   return (
-    <Draggable
-    defaultPosition={{x: 1, y: 1}}
-    > 
-      <div style={{ width:  "10px"}} id={blId}>
+    <div id={blId}>
+      <Draggable > 
+      <div style={{ width:  "10px"}} >
         {editmode?
           <div>
             <div style={{display: "flex"}}>
@@ -76,5 +88,7 @@ export const Mathblock: React.FC<MathBlockInterface> = (
         
       </div>
     </Draggable>
+    </div>
+    
   );
 };
