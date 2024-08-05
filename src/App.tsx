@@ -5,18 +5,19 @@ import { MathBlockInterface } from "./global/mathBlockInterface";
 import { useHotkeys } from "react-hotkeys-hook";
 import { useState } from "react";
 import { addBlock, download } from "./global/hotkeys";
+import { Store } from "./global/localstoragefile";
 
 
 
 export default function App() {
-  const [mathBlocks, setMathBlocks] = useState<MathBlockInterface[]>([]);
+  const arr = Store.splitLocalStorage()
+  const [mathBlocks, setMathBlocks] = useState<MathBlockInterface[]>(Store.LocalStorage_To_MathblockInterfaceArray(arr));
 
   useHotkeys("alt+n", () => {setMathBlocks([...mathBlocks, addBlock()])});
   useHotkeys("alt+s", () => {download()})
 
   return (
     <MathJaxContext config={config}>
-      <button onMouseDown={() => {localStorage.clear()}}>REMOVE EVERYTHING</button>
       {
         mathBlocks.map((block) => (
           <Mathblock
