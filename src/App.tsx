@@ -6,12 +6,25 @@ import { useHotkeys } from "react-hotkeys-hook";
 import { useState } from "react";
 import { addBlock, ClearScreen, download } from "./global/hotkeys";
 import { Store } from "./global/localstoragefile";
-
+import { JSONFileReader } from "./components/FileReader";
 
 
 export default function App() {
   const arr = Store.splitLocalStorage()
   const [mathBlocks, setMathBlocks] = useState<MathBlockInterface[]>(Store.LocalStorage_To_MathblockInterfaceArray(arr));
+
+  const handleFileData = (data: any) => {
+    let tempMathblockArray: MathBlockInterface[] = [];
+    for(let i = 0; i < data.length; i++){
+      tempMathblockArray.push({
+        id: data[i].id,
+        equation: data[i].equation,
+        x: data[i].x,
+        y: data[i].y
+      })
+    }
+    setMathBlocks(tempMathblockArray);
+  };
 
   useHotkeys("alt+n", () => {setMathBlocks([...mathBlocks, addBlock()])});
   useHotkeys("alt+s", () => {download()})
@@ -19,7 +32,7 @@ export default function App() {
 
   return (
     <MathJaxContext config={config}>
-      <input type="file"></input>
+      <JSONFileReader sendJsonData={handleFileData} ></JSONFileReader>
       {
         mathBlocks.map((block) => (
           <Mathblock
