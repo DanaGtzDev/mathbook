@@ -4,7 +4,7 @@ import {Mathblock} from "./components/Mathblock";
 import { MathBlockInterface } from "./global/mathBlockInterface";
 import { useHotkeys } from "react-hotkeys-hook";
 import { useState } from "react";
-import { addBlock, download } from "./global/hotkeys";
+import { addBlock, ClearScreen, download } from "./global/hotkeys";
 import { Store } from "./global/localstoragefile";
 
 
@@ -15,9 +15,11 @@ export default function App() {
 
   useHotkeys("alt+n", () => {setMathBlocks([...mathBlocks, addBlock()])});
   useHotkeys("alt+s", () => {download()})
+  useHotkeys("alt+c", () => {ClearScreen()})
 
   return (
     <MathJaxContext config={config}>
+      <input type="file"></input>
       {
         mathBlocks.map((block) => (
           <Mathblock
