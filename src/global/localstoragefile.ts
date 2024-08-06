@@ -23,8 +23,12 @@ export class Store{
         localStorage.clear();
     }
 
+    public static buildFormat(equation: string, x: number, y:number){
+        return "$$" + equation + "$$(x:" + x + ",y:" + y + ")"
+    }
+
     public static storeItem(m: MathBlockInterface){
-        const format = "$$" + m.equation + "$$(x:" + m.x + ",y:" + m.y + ")"
+        const format = this.buildFormat(m.equation,m.x,m.y);
         localStorage.setItem(m.id, format);
     }
 
@@ -117,6 +121,28 @@ export class Store{
         res["y"] = m.y;
     
         return res;
+    }
+
+    /**
+     * 
+     * Preparate para el PEOR CODIGO que vas a ver en tu vida
+     */
+    public static updateBlockPos(id: string, x: number, y:number){
+        const block = localStorage.getItem(id)
+        const regex = /\$\$(?<EQUATION>.*)\$\$\(x:(?<X>[0-9\.]*),y:(?<Y>[0-9\.]*)\)/g
+
+        if(block){
+            const matches = [...block.matchAll(regex)];
+
+            matches.forEach(match => {
+                if (match.groups?.EQUATION){
+                    console.log(this.buildFormat(match.groups?.EQUATION,x,y))
+                    localStorage.setItem(id, this.buildFormat(match.groups?.EQUATION,x,y));
+                }
+            });
+        }
+        
+        
     }
 
    

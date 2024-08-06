@@ -26,5 +26,10 @@ export function download(){
     downloadFile(jsonRes)
 }
 
+export function ClearScreen(){
+    localStorage.clear();
+    location.reload();
+}
+
 
 

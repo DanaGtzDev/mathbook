@@ -61,6 +61,7 @@ export const Mathblock: React.FC<MathBlockInterface> = (
 
   useEffect(() => {
     const block = document.getElementById(blId)
+    block!.style.position = "absolute"
     block!.style.left = props.x + "px"
     block!.style.top = props.y + "px"
   },[])
@@ -68,7 +69,7 @@ export const Mathblock: React.FC<MathBlockInterface> = (
 
 
   return (
-    <div id={blId}>
+    <div id={blId} onMouseUp={(e) => {Store.updateBlockPos(props.id, e.clientX, e.clientY)}}>
       <Draggable > 
       <div style={{ width:  "10px"}} >
         {editmode?
