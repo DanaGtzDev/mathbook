@@ -9,10 +9,10 @@ export const Mathblock: React.FC<MathBlockInterface> = (
   props: MathBlockInterface
 ) => {
   
-  const [equation, setEquation] = useState(props.equation);
+  const [equation, setEquation] = useState(props.equation.replace(/\\+/g, '\\'));
   const [blockwidth, setBlockwidth] = useState(200);
   const [editmode, setEditmode] = useState(() => {
-    if(Store.getItem(props.id)){
+    if(Store.getItem(props.id) || props.x !== 0 || props.y !== 0){
       return false
     }else{
       return true

@@ -16,6 +16,7 @@ export default function App() {
   const handleFileData = (data: any) => {
     let tempMathblockArray: MathBlockInterface[] = [];
     for(let i = 0; i < data.length; i++){
+      console.log(`x: ${data[i].x}, y ${data[i].y}`)
       tempMathblockArray.push({
         id: data[i].id,
         equation: data[i].equation,
